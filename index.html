@@ -12,25 +12,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <script type="text/javascript">
   var event_id = 16; //Tässä määritelläänpi eventti, ID 16 on 2018 jne
-  var count = 4; //Tässä ompi monta ohjelmaa saadaampi
   var sponsorData = [];
+  var programData = [];
   var sponsorCount = 0;
+  var oldProgIndex = null;
   initSponsors();
-
-  $.getJSON('fetch.php', {event: event_id, limit: count, type: '0' })
-    .done(function(data) {
-    $.each(data, function(i, item) {
-      var time = new Date(item.date);
-      $("#schedule").append('<div class="program">' +
-      time.getHours() + ":" +
-      (time.getMinutes()<10?"0":"") +
-      time.getMinutes() +
-      "  " + "<span>" + item.title );
+  initPrograms();
+  function initPrograms() {
+    $.getJSON('fetch.php', {event: event_id, type: '0' }).done(function(data) {
+      $.each(data, function(i, item) {
+        programData.push(item);
+      });
+      updateProgramlist();
     });
-  });
+  }
 
   function initSponsors(){
-    $.getJSON('fetch.php', {event: 15, type: '1'}).done(function(data){
+    $.getJSON('fetch.php', {event: event_id, type: '1'}).done(function(data){
       $.each(data, function(i,v){sponsorData.push(v)});
       showSponsors();
     });
@@ -44,7 +42,11 @@
     clock();
   },1000);
 
-  function clock(){ //tein kellon ihan itte :3 regards mikroudz ihan vitun cool ja optimoitu
+  var timeVar3 = setInterval(function(){
+    updateProgramlist();
+  },20000);
+
+  function clock(){ //Kello
     var timeNow = new Date();
     if(document.getElementById("hours").innerHTML != timeNow.getHours()){
       document.getElementById("hours").innerHTML = timeNow.getHours();
@@ -55,29 +57,50 @@
     document.getElementById("seconds").innerHTML = (timeNow.getSeconds()<10?"0":0) + timeNow.getSeconds();
   }
 
-  function showSponsors(){
-    $("#sponsors").empty();
-    for(i = sponsorCount; i < sponsorCount+3 && i < sponsorData.length; i++){
-      $("#sponsors").append('<img src="' + sponsorData[i]['logo_img_url'] + '">');
-    }
-    if(sponsorCount >= sponsorData.length-1){
-      sponsorCount = 0;
-    } else {
-      sponsorCount = sponsorCount + 3;
+  function updateProgramlist(limit){
+    var progIndex = programData.findIndex(function(item){
+      var testdate = new Date();
+      var progDate = new Date(item.date);
+      return progDate.getTime() >= testdate.getTime();
+    });
+    if(oldProgIndex != progIndex){
+      oldProgIndex = progIndex;
+      $("#schedule > .program").remove();
+      for (var i = progIndex; i < progIndex+4; i++) {
+        var progDate = new Date(programData[i].date);
+        $("#schedule").append('<div class="program">' +
+        progDate.getHours() + ":" +
+        (progDate.getMinutes()<10?"0":"") +
+        progDate.getMinutes() +
+        "  " + "<span>" + programData[i].title );
+      }
     }
   }
+
+  function showSponsors(){ //sponsorit
+    $("#sponsors").empty();
+    for(var i = sponsorCount; i < sponsorCount+3 && i < sponsorData.length; i++){
+      $("#sponsors").append('<img src="' + sponsorData[i]['logo_img_url'] + '">');
+    }
+    if(sponsorCount+3 >= sponsorData.length-1){
+      sponsorCount = 0;
+    } else {
+      sponsorCount = (sponsorCount + 3 >= sponsorData.length-1)?sponsorData.length-1:sponsorCount + 3;
+    }
+  }
+  //  <span class="musa"><h1><strong>Toistossa:</strong> Moiman on bi seksuaali - Papumaja</h1></span>
+
   </script>
 </head>
 <body>
 <div id="top-bar">
-  <span class="musa"><h1><strong>Toistossa:</strong> Moiman on bi seksuaali - Papumaja</h1></span>
-  <span class="url"><h1>http://instanssi.org</h1></span>
+<span class="musa"></span>  <span class="url"><h1>http://instanssi.org</h1></span>
 </div>
 
 
 <div id="schedule">
   <div id="clock">
-    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span> UTC+2
   </div>
 </div>
 

@@ -15,6 +15,14 @@
     return strtotime($a['date']) - strtotime($b['date']);
   }
 
+  function decorate(&$v,$k){
+    $v['title'] = array($v['title'], $k);
+  }
+
+  function undecorate(&$v,$k){
+    $v['title'] = $v['title'][0];
+  }
+
   $api_url = 'https://instanssi.org/api/v1';
   $program_arr = array();
   $event = $_GET['event'];
@@ -26,7 +34,6 @@
     '/sponsors/?event='.$event .'&format=json'
   ];
   $array_out = array();
-
 
   switch ($type) {
     case 0: //ohjelmalista
@@ -44,30 +51,33 @@
       if(!empty($val->adding_end)){
         array_push($program_arr, [
           'title' => $val->name . ": ilmottautuminen päättyy",
-          'date' => $val->adding_end,
+          'date' => $val->adding_end
         ]);
       }
       if(!empty($val->compo_start)){
         array_push($program_arr, [
           'title' => $val->name . ": kompo alkaa",
-          'date' => $val->compo_start,
+          'date' => $val->compo_start
         ]);
       }
       if(!empty($val->voting_start)){
         array_push($program_arr, [
           'title' => $val->name . ": äänestys alkaa",
-          'date' => $val->voting_start,
+          'date' => $val->voting_start
         ]);
       }
       if(!empty($val->voting_end)){
         array_push($program_arr, [
           'title' => $val->name . ": äänestys loppuu",
-          'date' => $val->voting_end,
+          'date' => $val->voting_end
         ]);
       }
     }
+    array_walk($program_arr, 'decorate');
     usort($program_arr, "sortDate");
-    $array_out = array_slice($program_arr, 0, $limit);
+    array_walk($program_arr, 'undecorate');
+
+    $array_out = $program_arr;
       break;
     case 1: //sponsorit
     $obj_sponsors = json_decode(getjson($types_arr[2]));

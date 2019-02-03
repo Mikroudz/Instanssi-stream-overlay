@@ -1,3 +1,3 @@
 # Instanssi-stream-overlay
 
-Instanssin tapahtumastreamin "downtime"-overlay. Kyhätty LIMUVIINAN voimalla noin 12 tunnissa.
+Hakee tietoja instanssi-apista. Kasattu nopealla aikataululla joten voipi olla aika paska.
