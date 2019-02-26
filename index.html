@@ -11,7 +11,7 @@
   <title>StreamShow</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <script type="text/javascript">
-  var event_id = 16; //Tässä määritelläänpi eventti, ID 16 on 2018 jne
+  var event_id = 17; //Tässä määritelläänpi eventti, ID 16 on 2018 jne
   var sponsorData = [];
   var programData = [];
   var sponsorCount = 0;
@@ -93,15 +93,21 @@
   </script>
 </head>
 <body>
+  <img src="loharimustatreunat.png" class="lohari">
+  <img src="loharikaet.png" style="z-index: 10;" class="lohari">
+  <img src="loharipaa.png" style="z-index: 4;" class="lohari">
 <div id="top-bar">
-<span class="musa"></span>  <span class="url"><h1>http://instanssi.org</h1></span>
+  <span class="musa"></span>
+  <h1>@instanssi</h1>
+  <h1>#instanssi @ IRCNet</h1>
+  <h1>http://instanssi.org</h1>
+  <div id="clock">
+    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span> UTC+2
+  </div>
 </div>
 
 
 <div id="schedule">
-  <div id="clock">
-    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span> UTC+2
-  </div>
 </div>
 
 <div id="video"></div>
