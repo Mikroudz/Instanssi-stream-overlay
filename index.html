@@ -49,7 +49,7 @@
   function clock(){ //Kello
     var timeNow = new Date();
     if(document.getElementById("hours").innerHTML != timeNow.getHours()){
-      document.getElementById("hours").innerHTML = timeNow.getHours();
+      document.getElementById("hours").innerHTML = (timeNow.getHours()<10?"0":0) + timeNow.getHours();
     }
     if(document.getElementById("minutes").innerHTML != timeNow.getMinutes()){
       document.getElementById("minutes").innerHTML = (timeNow.getMinutes()<10?"0":0) + timeNow.getMinutes();
@@ -97,13 +97,12 @@
   <img src="loharikaet.png" style="z-index: 10;" class="lohari">
   <img src="loharipaa.png" style="z-index: 4;" class="lohari">
 <div id="top-bar">
-  <span class="musa"></span>
-  <h1>@instanssi</h1>
-  <h1>#instanssi @ IRCNet</h1>
   <h1>http://instanssi.org</h1>
-  <div id="clock">
+  <h1>Twitter @instanssi</h1>
+  <h1>#instanssi @ IRCNet</h1>
+  <h1><div id="clock">
     <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span> UTC+2
-  </div>
+  </div></h1>
 </div>
 
 

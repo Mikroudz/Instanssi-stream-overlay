@@ -71,16 +71,16 @@ strong {
   //top: -40px;
   //bottom: 10px;
   //right: 10px;
-  font-weight: 400;
-  font-size: 1.7em;
-  -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: black;
+//  font-weight: 400;
+//  font-size: 1.7em;
+//  -webkit-text-stroke-width: 0.5px;
+//  -webkit-text-stroke-color: black;
 }
 
 #clock span {
-  min-width: 35px;
+  min-width: 39px;
   display: inline-block;
-  text-align: right;
+  text-align: center;
 }
 
 #sponsors {
@@ -103,7 +103,7 @@ strong {
   left: 20px;
   height: 720px;
   width: 1280px;
-  border: 2px solid black;
+  //border: 2px solid black;
   background-image: url('logo.png'), url('stream_test.jpg');
   background-size: contain;
   background-position: center center;
